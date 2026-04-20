@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HeartNote AI</title>
+  <style>
+    :root{
+      --bg:#fff8f8;
+      --card:#ffffff;
+      --text:#2b2b2b;
+      --muted:#777;
+      --line:#f0dede;
+      --primary:#ff6b81;
+      --primary-dark:#ff4d6d;
+      --accent:#ffd6de;
+      --green:#19a974;
+      --shadow:0 12px 30px rgba(255,107,129,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#fff0f3 0%, #fff8f8 100%);
+    }
+    .container{max-width:1180px;margin:0 auto;padding:28px 18px 40px;}
+    .hero{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:18px;
+      margin-bottom:18px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+    .badge{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#fff1f4;
+      color:#d6336c;
+      border:1px solid #ffd3dd;
+      font-size:13px;
+      margin-bottom:12px;
+    }
+    h1{margin:0 0 10px;font-size:34px}
+    .sub{color:var(--muted);line-height:1.8;font-size:15px}
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:16px;
+    }
+    .stat{
+      background:#fff8fa;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+    }
+    .stat strong{
+      display:block;
+      font-size:26px;
+      color:var(--primary-dark);
+    }
+    .right-box ul{margin:8px 0 0 20px; line-height:1.9}
+    .layout{
+      display:grid;
+      grid-template-columns:340px 1fr;
+      gap:18px;
+    }
+    .section-title{
+      margin:0 0 14px;
+      font-size:18px;
+    }
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+    input, textarea, select{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px 14px;
+      font-size:14px;
+      background:#fff;
+      color:var(--text);
+    }
+    textarea{min-height:88px;resize:vertical;line-height:1.7}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    button{
+      border:0;
+      border-radius:14px;
+      padding:11px 15px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .btn-primary{
+      background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+      color:#fff;
+    }
+    .btn-light{
+      background:#fff3f5;
+      color:#d6336c;
+      border:1px solid #ffd3dd;
+    }
+    .btn-mini{
+      padding:8px 10px;
+      font-size:12px;
+      border-radius:10px;
+    }
+    .contact-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      max-height:720px;
+      overflow:auto;
+      padding-right:4px;
+    }
+    .contact-item{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background:#fffafb;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+    .contact-item:hover,.contact-item.active{
+      border-color:#ffb3c2;
+      background:#fff2f5;
+      transform:translateY(-1px);
+    }
+    .name-line{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:6px;
+    }
+    .tag{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:999px;
+      background:#ffe6ec;
+      color:#c2255c;
+      font-size:12px;
+    }
+    .muted{color:var(--muted);font-size:13px}
+    .countdown{
+      color:var(--primary-dark);
+      font-weight:700;
+      font-size:13px;
+    }
+    .detail-top{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:16px;
+      margin-bottom:16px;
+    }
+    .detail-box{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      background:#fffafb;
+    }
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .chip{
+      background:#fff1f4;
+      border:1px solid #ffd6de;
+      color:#b03060;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+    }
+    .ai-box{
+      margin-top:16px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      background:#fffdfd;
+    }
+    .ai-result{
+      white-space:pre-wrap;
+      line-height:1.85;
+      min-height:150px;
+      background:#fff8fa;
+      border:1px dashed #ffccd5;
+      border-radius:14px;
+      padding:14px;
+      margin-top:10px;
+    }
+    .small-note{font-size:12px;color:var(--muted)}
+    .footer{
+      text-align:center;
+      font-size:13px;
+      color:var(--muted);
+      margin-top:22px;
+    }
+    @media (max-width: 960px){
+      .hero,.layout,.detail-top,.row,.stats{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <div class="card">
+        <div class="badge">❤️ AI 关系管理 Demo</div>
+        <h1>HeartNote AI</h1>
+        <div class="sub">
+          一个帮助用户记录亲朋好友生日、兴趣偏好和送礼线索的轻量化关系管理网页。
+          它不仅提醒你“别忘了重要的人”，还通过 <b>AI 祝福生成</b> 和 <b>礼物灵感推荐</b>，
+          帮助你更自然地表达心意。
+        </div>
+        <div class="stats">
+          <div class="stat"><strong id="statContacts">0</strong>已记录好友</div>
+          <div class="stat"><strong id="statUpcoming">0</strong>7天内生日</div>
+          <div class="stat"><strong id="statToday">0</strong>今日生日</div>
+        </div>
+      </div>
+      <div class="card right-box">
+        <h3 class="section-title">产品亮点</h3>
+        <ul>
+          <li>记录生日、关系、爱好、礼物线索</li>
+          <li>自动计算生日倒计时</li>
+          <li>一键生成不同风格的生日祝福</li>
+          <li>根据兴趣给出礼物灵感</li>
+        </ul>
+        <div class="small-note">适合作为轻量 AI 产品 Demo，直接打开即可交互，无需登录。</div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <h3 class="section-title">添加 / 编辑亲友</h3>
+        <div class="toolbar">
+          <button class="btn-light btn-mini" onclick="loadSample()">导入示例数据</button>
+          <button class="btn-light btn-mini" onclick="resetForm()">清空表单</button>
+        </div>
+        <input type="hidden" id="editingId">
+        <div style="display:grid;gap:10px;">
+          <input id="name" placeholder="姓名，例如：小雨">
+          <div class="row">
+            <input id="birthday" type="date">
+            <select id="relation">
+              <option value="朋友">朋友</option>
+              <option value="家人">家人</option>
+              <option value="同学">同学</option>
+              <option value="同事">同事</option>
+              <option value="恋人">恋人</option>
+            </select>
+          </div>
+          <input id="hobbies" placeholder="爱好，例如：咖啡、摄影、二次元">
+          <input id="wishlist" placeholder="最近提过想要的礼物或线索">
+          <textarea id="notes" placeholder="备注：比如喜欢的颜色、讨厌的东西、上次送过什么"></textarea>
+          <div class="row">
+            <button class="btn-primary" onclick="saveContact()">保存</button>
+            <button class="btn-light" onclick="resetAll()">清空全部数据</button>
+          </div>
+        </div>
+
+        <h3 class="section-title" style="margin-top:22px;">亲友列表</h3>
+        <div id="contactList" class="contact-list"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title">详情与 AI 助手</h3>
+        <div id="emptyState" class="detail-box">
+          还没有选择联系人。你可以先添加一个人，或者点击“导入示例数据”快速体验。
+        </div>
+
+        <div id="detailArea" style="display:none;">
+          <div class="detail-top">
+            <div class="detail-box">
+              <div class="name-line">
+                <div>
+                  <div style="font-size:24px;font-weight:800;" id="detailName"></div>
+                  <div class="muted" id="detailMeta"></div>
+                </div>
+                <div class="countdown" id="detailCountdown"></div>
+              </div>
+
+              <div style="margin-top:12px;">
+                <div style="font-weight:700;">兴趣标签</div>
+                <div class="chips" id="detailHobbies"></div>
+              </div>
+
+              <div style="margin-top:12px;">
+                <div style="font-weight:700;">礼物线索</div>
+                <div class="muted" id="detailWishlist" style="margin-top:6px;"></div>
+              </div>
+
+              <div style="margin-top:12px;">
+                <div style="font-weight:700;">备注</div>
+                <div class="muted" id="detailNotes" style="margin-top:6px;line-height:1.8;"></div>
+              </div>
+
+              <div class="toolbar" style="margin-top:14px;">
+                <button class="btn-light btn-mini" onclick="editCurrent()">编辑</button>
+                <button class="btn-light btn-mini" onclick="deleteCurrent()">删除</button>
+              </div>
+            </div>
+
+            <div class="detail-box">
+              <div style="font-weight:700;margin-bottom:10px;">快捷操作</div>
+              <div class="toolbar">
+                <button class="btn-primary btn-mini" onclick="generateWish('温暖真诚')">生成温暖祝福</button>
+                <button class="btn-light btn-mini" onclick="generateWish('轻松朋友')">生成朋友版</button>
+                <button class="btn-light btn-mini" onclick="generateWish('简短礼貌')">生成简短版</button>
+              </div>
+              <div class="toolbar">
+                <button class="btn-primary btn-mini" onclick="generateGiftIdeas()">推荐礼物</button>
+                <button class="btn-light btn-mini" onclick="copyResult()">复制结果</button>
+              </div>
+              <div class="small-note">这里的“AI”用规则模拟核心体验，方便快速展示产品想法。</div>
+            </div>
+          </div>
+
+          <div class="ai-box">
+            <div style="font-weight:700;">AI 输出结果</div>
+            <div id="aiResult" class="ai-result">点上方按钮生成祝福语或礼物推荐。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">HeartNote AI · Birthday reminder + interest profile + AI wishes</div>
+  </div>
+
+  <script>
+    let contacts = [];
+    let currentId = null;
+
+    function uid(){
+      return Date.now().toString() + Math.random().toString(16).slice(2,6);
+    }
+
+    function daysUntilBirthday(dateStr){
+      if(!dateStr) return null;
+      const today = new Date();
+      const birth = new Date(dateStr);
+      let next = new Date(today.getFullYear(), birth.getMonth(), birth.getDate());
+      next.setHours(0,0,0,0);
+      const todayClean = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      if(next < todayClean){
+        next = new Date(today.getFullYear()+1, birth.getMonth(), birth.getDate());
+      }
+      const diff = Math.round((next - todayClean) / (1000*60*60*24));
+      return diff;
+    }
+
+    function countdownText(days){
+      if(days === 0) return "今天生日";
+      if(days === 1) return "明天生日";
+      return `还有 ${days} 天`;
+    }
+
+    function saveContact(){
+      const id = document.getElementById('editingId').value || uid();
+      const name = document.getElementById('name').value.trim();
+      const birthday = document.getElementById('birthday').value;
+      const relation = document.getElementById('relation').value;
+      const hobbies = document.getElementById('hobbies').value.trim();
+      const wishlist = document.getElementById('wishlist').value.trim();
+      const notes = document.getElementById('notes').value.trim();
+
+      if(!name || !birthday){
+        alert('请至少填写姓名和生日');
+        return;
+      }
+
+      const item = { id, name, birthday, relation, hobbies, wishlist, notes };
+
+      const idx = contacts.findIndex(x => x.id === id);
+      if(idx >= 0){
+        contacts[idx] = item;
+      }else{
+        contacts.push(item);
+      }
+
+      currentId = id;
+      render();
+      renderDetail(currentId);
+      resetForm(false);
+    }
+
+    function resetForm(clearEdit=true){
+      document.getElementById('name').value = '';
+      document.getElementById('birthday').value = '';
+      document.getElementById('relation').value = '朋友';
+      document.getElementById('hobbies').value = '';
+      document.getElementById('wishlist').value = '';
+      document.getElementById('notes').value = '';
+      if(clearEdit) document.getElementById('editingId').value = '';
+    }
+
+    function resetAll(){
+      if(confirm('确定清空全部联系人数据吗？')){
+        contacts = [];
+        currentId = null;
+        render();
+        document.getElementById('detailArea').style.display = 'none';
+        document.getElementById('emptyState').style.display = 'block';
+        document.getElementById('aiResult').textContent = '点上方按钮生成祝福语或礼物推荐。';
+        resetForm();
+      }
+    }
+
+    function render(){
+      contacts.sort((a,b) => daysUntilBirthday(a.birthday) - daysUntilBirthday(b.birthday));
+      const list = document.getElementById('contactList');
+      list.innerHTML = contacts.length ? contacts.map(c => `
+        <div class="contact-item ${c.id===currentId?'active':''}" onclick="renderDetail('${c.id}')">
+          <div class="name-line">
+            <strong>${escapeHtml(c.name)}</strong>
+            <span class="tag">${escapeHtml(c.relation)}</span>
+          </div>
+          <div class="muted">${formatDate(c.birthday)}</div>
+          <div class="countdown">${countdownText(daysUntilBirthday(c.birthday))}</div>
+        </div>
+      `).join('') : '<div class="muted">暂无联系人，先添加一位吧。</div>';
+
+      const todayCount = contacts.filter(c => daysUntilBirthday(c.birthday) === 0).length;
+      const upcomingCount = contacts.filter(c => daysUntilBirthday(c.birthday) <= 7).length;
+      document.getElementById('statContacts').textContent = contacts.length;
+      document.getElementById('statUpcoming').textContent = upcomingCount;
+      document.getElementById('statToday').textContent = todayCount;
+    }
+
+    function renderDetail(id){
+      const person = contacts.find(x => x.id === id);
+      if(!person) return;
+      currentId = id;
+      render();
+
+      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('detailArea').style.display = 'block';
+
+      document.getElementById('detailName').textContent = person.name;
+      document.getElementById('detailMeta').textContent = `${person.relation} · ${formatDate(person.birthday)}`;
+      document.getElementById('detailCountdown').textContent = countdownText(daysUntilBirthday(person.birthday));
+
+      const hobbies = person.hobbies ? person.hobbies.split(/[,，、\s]+/).filter(Boolean) : [];
+      document.getElementById('detailHobbies').innerHTML = hobbies.length
+        ? hobbies.map(h => `<span class="chip">${escapeHtml(h)}</span>`).join('')
+        : '<span class="muted">暂无</span>';
+
+      document.getElementById('detailWishlist').textContent = person.wishlist || '暂无';
+      document.getElementById('detailNotes').textContent = person.notes || '暂无';
+      document.getElementById('aiResult').textContent = '点上方按钮生成祝福语或礼物推荐。';
+    }
+
+    function editCurrent(){
+      const person = contacts.find(x => x.id === currentId);
+      if(!person) return;
+      document.getElementById('editingId').value = person.id;
+      document.getElementById('name').value = person.name;
+      document.getElementById('birthday').value = person.birthday;
+      document.getElementById('relation').value = person.relation;
+      document.getElementById('hobbies').value = person.hobbies;
+      document.getElementById('wishlist').value = person.wishlist;
+      document.getElementById('notes').value = person.notes;
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function deleteCurrent(){
+      if(!currentId) return;
+      if(confirm('确定删除这位联系人吗？')){
+        contacts = contacts.filter(x => x.id !== currentId);
+        currentId = contacts[0]?.id || null;
+        render();
+        if(currentId){
+          renderDetail(currentId);
+        }else{
+          document.getElementById('detailArea').style.display = 'none';
+          document.getElementById('emptyState').style.display = 'block';
+        }
+      }
+    }
+
+    function relationTone(relation, style){
+      if(style === '简短礼貌'){
+        return `生日快乐，愿你新的一岁平安顺利、万事胜意。`;
+      }
+      if(relation === '家人'){
+        return `谢谢你一直以来的陪伴与支持，愿你健康快乐，所有期待都能慢慢实现。`;
+      }
+      if(relation === '恋人'){
+        return `很开心能陪你一起走过这些日子，愿你新的一岁被爱包围，也继续闪闪发光。`;
+      }
+      if(style === '轻松朋友'){
+        return `生日快乐呀！希望你新的一岁继续做喜欢的事，吃好喝好玩好，惊喜不断。`;
+      }
+      return `生日快乐！希望你在新的一岁里，继续热爱生活，也被生活温柔以待。`;
+    }
+
+    function generateWish(style){
+      const person = contacts.find(x => x.id === currentId);
+      if(!person) return;
+
+      const hobbies = person.hobbies ? person.hobbies.split(/[,，、\s]+/).filter(Boolean).slice(0,2) : [];
+      let extra = '';
+      if(hobbies.length){
+        extra = ` 也希望你有更多时间去享受${hobbies.join('和')}带来的快乐。`;
+      } else if(person.wishlist){
+        extra = ` 也希望你想要的事情都能一步步实现。`;
+      }
+
+      const text = `送给 ${person.name} 的${style}生日祝福：
+
+${relationTone(person.relation, style)}${extra}
+
+愿接下来的一年里，你有被认真记住的时刻，也有值得期待的新故事。`;
+      document.getElementById('aiResult').textContent = text;
+    }
+
+    function generateGiftIdeas(){
+      const person = contacts.find(x => x.id === currentId);
+      if(!person) return;
+
+      const raw = `${person.hobbies} ${person.wishlist} ${person.notes}`.toLowerCase();
+      const ideas = [];
+
+      if(/咖啡/.test(raw)) ideas.push('手冲咖啡杯 / 精品咖啡豆 / 便携随行杯');
+      if(/摄影|拍照/.test(raw)) ideas.push('相机背带 / 相册打印券 / 桌面相框');
+      if(/二次元|动漫|手办/.test(raw)) ideas.push('角色周边 / 手办展示盒 / 定制徽章');
+      if(/游戏|lol|英雄联盟|cs|steam/.test(raw)) ideas.push('游戏点卡 / 键帽 / 鼠标垫 / 周边');
+      if(/运动|健身|跑步/.test(raw)) ideas.push('运动水杯 / 护腕 / 速干毛巾');
+      if(/音乐|耳机/.test(raw)) ideas.push('耳机包 / 黑胶摆件 / 音乐会员');
+      if(/美妆|口红|护肤/.test(raw)) ideas.push('护手霜礼盒 / 香薰 / 化妆镜');
+      if(/书|阅读/.test(raw)) ideas.push('书店礼品卡 / 阅读灯 / 精装笔记本');
+
+      if(ideas.length === 0){
+        ideas.push('定制贺卡 + 小蛋糕');
+        ideas.push('香薰 / 杯子 / 花束等高接受度礼物');
+        ideas.push('结合最近聊天内容准备一个有记忆点的小惊喜');
+      }
+
+      const result = `给 ${person.name} 的礼物灵感：
+
+1. ${ideas[0]}
+2. ${ideas[1] || '根据TA最近提到的愿望准备一个小而确定的惊喜'}
+3. ${ideas[2] || '配合一段真诚祝福，会比贵重礼物更容易打动人'}
+
+推荐思路：优先选择“能体现你记得TA喜好”的礼物，而不是只追求贵。`;
+      document.getElementById('aiResult').textContent = result;
+    }
+
+    function copyResult(){
+      const text = document.getElementById('aiResult').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('已复制到剪贴板');
+      }).catch(() => {
+        alert('复制失败，请手动复制');
+      });
+    }
+
+    function loadSample(){
+      contacts = [
+        {
+          id: uid(),
+          name:'小雨',
+          birthday:'1999-04-26',
+          relation:'朋友',
+          hobbies:'咖啡, 摄影, 旅行',
+          wishlist:'最近说想买一个新的随行杯',
+          notes:'喜欢低饱和颜色，不太喜欢太浮夸的礼物'
+        },
+        {
+          id: uid(),
+          name:'妈妈',
+          birthday:'1975-05-02',
+          relation:'家人',
+          hobbies:'做饭, 阅读, 散步',
+          wishlist:'最近想换一个轻便保温杯',
+          notes:'更看重实用和心意'
+        },
+        {
+          id: uid(),
+          name:'阿哲',
+          birthday:'2000-04-21',
+          relation:'同学',
+          hobbies:'英雄联盟, 动漫, 音乐',
+          wishlist:'提过想要一个桌面摆件',
+          notes:'平时说话风格比较轻松'
+        }
+      ];
+      currentId = contacts[0].id;
+      render();
+      renderDetail(currentId);
+    }
+
+    function formatDate(dateStr){
+      const d = new Date(dateStr);
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }
+
+    function escapeHtml(str){
+      return (str || '').replace(/[&<>"']/g, s => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[s]));
+    }
+
+    render();
+  </script>
+</body>
+</html>
