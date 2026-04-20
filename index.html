@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AnswerPilot AI - 面试回答教练</title>
+  <style>
+    :root{
+      --bg:#f7f8fc;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --accent:#ef4444;
+      --accent2:#f97316;
+      --ok:#16a34a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+      background:linear-gradient(180deg,#fff7f7 0%, var(--bg) 35%);
+      color:var(--text);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:28px 20px 44px;}
+    .hero{
+      display:grid;grid-template-columns:1.2fr 0.8fr;gap:18px;align-items:stretch;
+      margin-bottom:18px;
+    }
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:20px;
+      box-shadow:0 12px 30px rgba(0,0,0,.05);padding:20px;
+    }
+    h1{margin:0 0 10px;font-size:32px;line-height:1.15}
+    .subtitle{color:var(--muted);line-height:1.7;font-size:15px}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#fff1f2;color:#be123c;border:1px solid #fecdd3;
+      padding:7px 12px;border-radius:999px;font-size:13px;margin-bottom:12px;
+    }
+    .mini{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px;
+    }
+    .mini .item{
+      border:1px solid var(--line);border-radius:16px;padding:12px;background:#fafafa;
+    }
+    .mini strong{display:block;font-size:20px}
+    .grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:18px;
+    }
+    label{display:block;font-weight:600;margin-bottom:8px}
+    textarea, select, input{
+      width:100%;border:1px solid var(--line);border-radius:14px;
+      padding:12px 14px;font-size:15px;background:white;color:var(--text);
+    }
+    textarea{min-height:230px;resize:vertical;line-height:1.6}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    button{
+      border:0;border-radius:14px;padding:12px 16px;font-size:15px;
+      cursor:pointer;font-weight:700;
+    }
+    .primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:white}
+    .ghost{background:#f3f4f6;color:#111827}
+    .score{
+      font-size:48px;font-weight:800;line-height:1;margin:8px 0 6px;
+    }
+    .progress{
+      height:10px;background:#f3f4f6;border-radius:999px;overflow:hidden;margin:8px 0 18px;
+      border:1px solid var(--line);
+    }
+    .bar{
+      height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));
+      transition:width .4s ease;
+    }
+    ul{padding-left:20px;line-height:1.8}
+    .pill{
+      display:inline-block;padding:6px 10px;border-radius:999px;margin:0 8px 8px 0;
+      background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:13px;
+    }
+    .section-title{font-size:18px;margin:8px 0 10px}
+    .muted{color:var(--muted)}
+    .rewrite{
+      white-space:pre-wrap;line-height:1.75;background:#fcfcfc;border:1px solid var(--line);
+      border-radius:16px;padding:14px;min-height:180px;
+    }
+    .footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+    @media (max-width: 900px){
+      .hero,.grid,.row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="card">
+        <div class="badge">🤖 AI Demo · 可直接交互</div>
+        <h1>AnswerPilot AI</h1>
+        <div class="subtitle">
+          一个轻量级 <b>AI 面试回答教练</b>。用户输入一段自我介绍或面试回答，系统会自动从
+          <b>结构完整度、量化表达、行动导向、岗位匹配度</b> 四个维度进行评分，并生成更清晰的优化版回答。
+          适合校招、实习、产品经理/运营/数据岗的面试准备。
+        </div>
+        <div class="mini">
+          <div class="item"><strong>实时评分</strong><span class="muted">可视化反馈</span></div>
+          <div class="item"><strong>关键词识别</strong><span class="muted">识别STAR与数据表达</span></div>
+          <div class="item"><strong>智能改写</strong><span class="muted">生成更像面试表达</span></div>
+          <div class="item"><strong>低门槛体验</strong><span class="muted">无需登录即可试玩</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title">使用说明</div>
+        <ul>
+          <li>选择目标岗位与回答类型</li>
+          <li>输入你的原始回答</li>
+          <li>点击“开始分析”查看评分与建议</li>
+          <li>复制优化版答案继续润色</li>
+        </ul>
+        <div class="section-title">适合提交 Demo 的原因</div>
+        <div class="muted">有明确问题场景、可直接交互、能快速展示“AI 提升表达效率”的价值。</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="row">
+          <div>
+            <label>目标岗位</label>
+            <select id="role">
+              <option value="产品经理">产品经理</option>
+              <option value="运营">运营</option>
+              <option value="数据分析">数据分析</option>
+              <option value="通用">通用</option>
+            </select>
+          </div>
+          <div>
+            <label>回答类型</label>
+            <select id="type">
+              <option value="自我介绍">自我介绍</option>
+              <option value="项目经历">项目经历</option>
+              <option value="为什么选择我们">为什么选择我们</option>
+              <option value="困难与解决">困难与解决</option>
+            </select>
+          </div>
+        </div>
+        <label>请输入你的回答</label>
+        <textarea id="answer" placeholder="例如：我在学校项目中主要负责前端页面设计和需求梳理，通过和组员沟通不断优化产品流程，最终按时完成了项目交付……"></textarea>
+        <div class="actions">
+          <button class="primary" onclick="analyze()">开始分析</button>
+          <button class="ghost" onclick="fillDemo()">填充示例</button>
+          <button class="ghost" onclick="resetAll()">清空</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">AI 评分结果</div>
+        <div class="score" id="score">0</div>
+        <div class="muted" id="level">等待分析</div>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+
+        <div class="section-title">检测到的亮点</div>
+        <div id="hits"></div>
+
+        <div class="section-title">优化建议</div>
+        <ul id="tips">
+          <li>输入回答后点击“开始分析”。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <div class="section-title">AI 优化版回答</div>
+      <div id="rewrite" class="rewrite">分析后将在这里生成更适合面试表达的版本。</div>
+    </div>
+
+    <div class="footer">Demo by ChatGPT · 单页前端原型，无需后端即可直接交互</div>
+  </div>
+
+<script>
+const roleKeywords = {
+  "产品经理":["用户","需求","迭代","协作","流程","优先级","数据","转化"],
+  "运营":["增长","活动","用户","转化","留存","投放","复盘","执行"],
+  "数据分析":["分析","指标","SQL","实验","洞察","数据","模型","监控"],
+  "通用":["沟通","推进","学习","结果","协作","优化","负责","完成"]
+};
+
+function fillDemo(){
+  document.getElementById('role').value = "产品经理";
+  document.getElementById('type').value = "项目经历";
+  document.getElementById('answer').value = "在一个校园医疗数据产品项目中，我主要负责前端页面设计和需求梳理。刚开始客户需求比较模糊，团队对优先级理解也不一致。我先和客户确认核心使用场景，再把需求拆成页面流程和功能模块，与组员逐项对齐。开发过程中，我持续根据反馈优化交互和页面结构，最后帮助团队按时完成了可演示版本，也让整体流程更加清晰。";
+}
+
+function resetAll(){
+  document.getElementById('answer').value = "";
+  document.getElementById('score').textContent = "0";
+  document.getElementById('level').textContent = "等待分析";
+  document.getElementById('bar').style.width = "0%";
+  document.getElementById('hits').innerHTML = "";
+  document.getElementById('tips').innerHTML = "<li>输入回答后点击“开始分析”。</li>";
+  document.getElementById('rewrite').textContent = "分析后将在这里生成更适合面试表达的版本。";
+}
+
+function analyze(){
+  const text = document.getElementById('answer').value.trim();
+  const role = document.getElementById('role').value;
+  const type = document.getElementById('type').value;
+  if(!text){
+    alert("请先输入回答内容");
+    return;
+  }
+
+  const metrics = {
+    hasSituation: /(项目|场景|背景|开始|当时|刚开始|一次)/.test(text),
+    hasAction: /(负责|推进|优化|分析|设计|沟通|协调|拆解|梳理|完成|解决)/.test(text),
+    hasResult: /(最终|结果|提升|完成|帮助|实现|按时|落地)/.test(text),
+    hasNumbers: /\d+|百分之|%/.test(text),
+    hasReflection: /(学到|复盘|意识到|总结|成长)/.test(text)
+  };
+
+  let score = 45;
+  if(metrics.hasSituation) score += 12;
+  if(metrics.hasAction) score += 14;
+  if(metrics.hasResult) score += 14;
+  if(metrics.hasNumbers) score += 8;
+  if(metrics.hasReflection) score += 5;
+
+  const roleHitCount = roleKeywords[role].filter(k => text.includes(k)).length;
+  score += Math.min(roleHitCount * 2, 10);
+  score = Math.min(score, 99);
+
+  let level = "有提升空间";
+  if(score >= 85) level = "表达成熟，竞争力较强";
+  else if(score >= 70) level = "整体不错，可继续优化";
+  else if(score >= 55) level = "基础合格，建议补强结果与细节";
+
+  document.getElementById('score').textContent = score;
+  document.getElementById('level').textContent = level;
+  document.getElementById('bar').style.width = score + "%";
+
+  const hits = [];
+  if(metrics.hasSituation) hits.push("有背景场景");
+  if(metrics.hasAction) hits.push("有行动描述");
+  if(metrics.hasResult) hits.push("有结果导向");
+  if(metrics.hasNumbers) hits.push("有量化表达");
+  if(metrics.hasReflection) hits.push("有总结反思");
+  if(roleHitCount >= 2) hits.push("岗位匹配较好");
+
+  document.getElementById('hits').innerHTML = hits.length
+    ? hits.map(x => `<span class="pill">${x}</span>`).join("")
+    : '<span class="muted">暂未识别到明显亮点</span>';
+
+  const tips = [];
+  if(!metrics.hasSituation) tips.push("补充问题背景，让回答更容易进入情境。");
+  if(!metrics.hasAction) tips.push("增加你具体做了什么，突出个人贡献。");
+  if(!metrics.hasResult) tips.push("补充结果或影响，说明你的行动带来了什么变化。");
+  if(!metrics.hasNumbers) tips.push("尽量加入时间、数量或效率提升等量化信息。");
+  if(roleHitCount < 2) tips.push("可以加入更贴近目标岗位的关键词，例如“用户、需求、数据、转化”。");
+  if(text.length < 80) tips.push("回答略短，可适当增加细节，使表达更完整。");
+  if(tips.length === 0) tips.push("整体结构已经比较完整，可以继续优化措辞，让表达更简洁有力。");
+
+  document.getElementById('tips').innerHTML = tips.map(t => `<li>${t}</li>`).join("");
+
+  const first = buildRewrite(text, role, type, metrics);
+  document.getElementById('rewrite').textContent = first;
+}
+
+function buildRewrite(text, role, type, metrics){
+  const starters = {
+    "自我介绍": `您好，我是一名对${role}方向非常感兴趣的候选人。`,
+    "项目经历": `这段经历里，我主要负责与${role}相关的核心工作。`,
+    "为什么选择我们": `我选择这个岗位，主要是因为它和我的能力积累以及长期发展方向高度匹配。`,
+    "困难与解决": `这段经历中，最大的挑战是需求和执行之间存在明显的不确定性。`
+  };
+
+  const body1 = metrics.hasSituation
+    ? "在项目推进初期，我先快速梳理背景和关键目标，明确真正需要优先解决的问题。"
+    : "我会先从背景、目标和关键约束出发，快速判断问题的核心。";
+
+  const body2 = metrics.hasAction
+    ? "随后，我通过需求拆解、跨角色沟通和方案迭代，把复杂问题转化为可执行的任务，并持续根据反馈优化。"
+    : "随后，我会把问题拆成可落地的模块，并通过沟通协同推动执行。";
+
+  const body3 = metrics.hasResult
+    ? "最终，这样的做法帮助项目更顺畅地落地，也让我在结果导向和协作推进方面积累了经验。"
+    : "这不仅提升了执行效率，也让我更加重视从结果反推过程。";
+
+  const body4 = metrics.hasReflection
+    ? "这段经历也让我意识到，好的回答和好的产品一样，都需要兼顾结构、重点和用户感受。"
+    : "我也从中学到，清晰表达和持续复盘，是提升个人竞争力的重要方式。";
+
+  return `${starters[type]}\n\n${body1}${body2}${body3}${body4}\n\n如果把这段经历和${role}岗位结合起来，我认为自己的优势在于：能够快速理解需求、主动推进协作，并把事情落到可验证的结果上。`;
+}
+</script>
+</body>
+</html>
